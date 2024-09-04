@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handlevogn</title>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        .page{
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 4fr 2fr;
+            grid-template-rows: 100px;
+            grid-template-areas:    'header header'
+                                    'store shoppingCart';
+        }
+
+        .header{
+            background-color: rgb(255, 0, 0);
+            grid-area: header;
+            text-align: center;
+            font-family: serif;
+            border: solid black;
+            border-radius: 50%;
+            color: green
+        }
+        .store{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 2;
+            margin: 10px;
+            gap: 20px;
+            grid-area: store;
+            text-align: center;
+        }
+        .shoppingCart{
+            background-color: rgb(213, 255, 213);
+            grid-area: shoppingCart;
+            border: solid 2px gray;
+        }
+
+        .item{
+            margin-top: 10px;
+            margin-right: 10px;
+            border-top: solid gray;
+            padding-top: 10%;
+            
+        }
+        .addToCart{
+            width: 100px;
+            height: 30px;
+            margin-top: 10%;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = document.getElementById('app');
+        
+        let store = ['Milk', 'Cereal', 'Chocolate', 'Friend']
+        let shoppingCart = ['Empty Cart, buy somthn', 'stress', 'more stress']
+       
+        updateview()
+        function updateview(){
+            app.innerHTML = /*HTML*/`
+
+            <div class="page">
+            <h1 class="header">OKMart</h1>
+
+            <div class="store">
+            <div class="item">${store[0]}</div>  
+            <button class="addToCart" onclick="addToCart(store[0])">Add to cart</button>
+            
+            <div class="item">${store[1]}</div>  
+            <button class="addToCart" onclick="addToCart(store[1])">Add to cart</button>
+            
+            <div class="item">${store[2]}</div>  
+            <button class="addToCart" onclick="addToCart(store[2])">Add to cart</button>
+            
+            <div class="item">${store[3]}</div>  
+            <button class="addToCart" onclick="addToCart(store[3])">Add to cart</button>
+            </div>
+
+            <div class="shoppingCart">Shopping Cart
+                    ${updateCart()}
+           
+            </div>
+                
+            
+            </div>
+            `;
+        }
+
+        function addToCart(item){
+            shoppingCart.push(item);
+            
+            updateCart()
+        }
+
+         function updateCart(){  
+            let itemsincart ="";         
+            for(let i = 0; i < shoppingCart.length; i++){
+                  itemsincart += `<div class="item">${shoppingCart[i]}</div>`;
+             }
+             return itemsincart
+             console.log(itemsincart)
+             updateview()
+        }
+    </script>
+</body>
+</html>
