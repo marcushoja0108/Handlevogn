@@ -101,7 +101,7 @@
         function addToCart(item){
             shoppingCart.push(item);
             
-            updateCart()
+            updateview()
         }
 
          function updateCart(){  
@@ -110,8 +110,6 @@
                   itemsincart += `<div class="item">${shoppingCart[i]}</div>`;
              }
              return itemsincart
-             console.log(itemsincart)
-             updateview()
         }
     </script>
 </body>
