@@ -4,59 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handlevogn</title>
-    <style>
-        body{
-            padding: 0;
-            margin: 0;
-        }
-        .page{
-            height: 100vh;
-            display: grid;
-            grid-template-columns: 4fr 2fr;
-            grid-template-rows: 100px;
-            grid-template-areas:    'header header'
-                                    'store shoppingCart';
-        }
-
-        .header{
-            background-color: rgb(255, 0, 0);
-            grid-area: header;
-            text-align: center;
-            font-family: serif;
-            border: solid black;
-            border-radius: 50%;
-            color: green
-        }
-        .store{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 2;
-            margin: 10px;
-            gap: 20px;
-            grid-area: store;
-            text-align: center;
-        }
-        .shoppingCart{
-            background-color: rgb(213, 255, 213);
-            grid-area: shoppingCart;
-            border: solid 2px gray;
-        }
-
-        .item{
-            margin-top: 10px;
-            margin-right: 10px;
-            border-top: solid gray;
-            padding-top: 10%;
-            
-        }
-        .addToCart{
-            width: 100px;
-            height: 30px;
-            margin-top: 10%;
-        }
-
-        
-    </style>
+    <link rel="stylesheet" href="style.css"/>
+    
 </head>
 <body>
     <div id="app"></div>
@@ -64,9 +13,36 @@
     <script>
         const app = document.getElementById('app');
         
-        let store = ['Milk', 'Cereal', 'Chocolate', 'Friend']
-        let shoppingCart = ['Empty Cart, buy somthn', 'stress', 'more stress']
-       
+        var store = [
+        {
+            item: 'Milk',
+            price: 30,
+            stock: 15,
+            image: 'img/milk.png',
+            cart: 0,
+        },
+        {
+            item: 'Cereal',
+            price: 20,
+            stock: 10,
+            image: 'img/cereal.png',
+            cart: 0,
+        },{
+            item: 'Chocolate',
+            price: 40,
+            stock: 8,
+            image: 'img/chocolate.png',
+            cart: 0
+        },{
+            item: 'Friend',
+            price: 10000,
+            stock: 0,
+            image: 'img/friend.png',
+            cart: 0,
+        }, ]
+        var shoppingCart = []
+        let sumtotal = 0
+
         updateview()
         function updateview(){
             app.innerHTML = /*HTML*/`
@@ -75,42 +51,60 @@
             <h1 class="header">OKMart</h1>
 
             <div class="store">
-            <div class="item">${store[0]}</div>  
-            <button class="addToCart" onclick="addToCart(store[0])">Add to cart</button>
-            
-            <div class="item">${store[1]}</div>  
-            <button class="addToCart" onclick="addToCart(store[1])">Add to cart</button>
-            
-            <div class="item">${store[2]}</div>  
-            <button class="addToCart" onclick="addToCart(store[2])">Add to cart</button>
-            
-            <div class="item">${store[3]}</div>  
-            <button class="addToCart" onclick="addToCart(store[3])">Add to cart</button>
-            </div>
+                <div class="items">${createstore()}</div>
+                </div>
 
-            <div class="shoppingCart">Shopping Cart
+            <div class="shoppingCart">
+                <h2 class="cartheader">Shopping Cart</h2>
                     ${updateCart()}
-           
-            </div>
+                    <div class="sumtotal">Totalt å betale: ${sumtotal} kr</div>
+           </div>
                 
             
             </div>
             `;
         }
 
-        function addToCart(item){
-            shoppingCart.push(item);
+        function createstore(){
+            let html = ''
+            for( let i = 0; i < store.length; i++){
+                html +=     `<div class="itemcontainer">
+                                <div>${store[i].item}</div>
+                                <div>${store[i].price} kr</div>
+                                <div>${store[i].stock} left in stock</div>
+                                <button class="addToCart" onclick="addToCart(${i})">Add to cart</button>
+                                </div>
+                                <img class="itemimage" src="${store[i].image}">            
+                                `;
+            }
+            return html
+        }
+
+        function addToCart(i){
+            if(store[i].stock > 0){
+                 
+            shoppingCart.push(store[i].item);
+            store[i].stock --
+            store[i].cart ++
+            sumtotal = sumtotal + store[i].price;
+                }
+                else{
+                    alert('Item out of stock')
+                }
             
             updateview()
         }
 
          function updateCart(){  
-            let itemsincart ="";         
+            let itemsincart ="";
+            
             for(let i = 0; i < shoppingCart.length; i++){
-                  itemsincart += `<div class="item">${shoppingCart[i]}</div>`;
+
+                  itemsincart += `<div class="item">${store[i].cart}x   ${shoppingCart[i]}</div>`;
              }
              return itemsincart
         }
     </script>
+
 </body>
 </html>
