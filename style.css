@@ -16,7 +16,6 @@ body{
     grid-area: header;
     text-align: center;
     font-family: serif;
-    border-radius: 20%;
     border: solid rgb(180, 0, 0);
     color: white;
     font-size: 70px;
