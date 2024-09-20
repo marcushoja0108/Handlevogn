@@ -23,10 +23,13 @@ body{
 }
 .store{
     display: grid;
+    grid-template-columns: auto auto auto;
     margin: 10px;
     gap: 20px;
     grid-area: store;
     text-align: center;
+
+    
 }
 
 .itemimage{
@@ -58,6 +61,18 @@ body{
     width: 100px;
     height: 30px;
     margin-top: 20px;
+}
+.cartitem{
+    display: grid;
+    grid-template-columns: auto auto;
+    text-align: center;
+    align-items: center;
+    border-bottom: solid gray;
+}
+.cartimage{
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .sumtotal{

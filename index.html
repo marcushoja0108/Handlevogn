@@ -32,7 +32,7 @@
             price: 40,
             stock: 8,
             image: 'img/chocolate.png',
-            cart: 0
+            cart: 0,
         },{
             item: 'Friend',
             price: 10000,
@@ -42,6 +42,7 @@
         }, ]
         var shoppingCart = []
         let sumtotal = 0
+        var itemincart = false
 
         updateview()
         function updateview(){
@@ -51,7 +52,7 @@
             <h1 class="header">OKMart</h1>
 
             <div class="store">
-                <div class="items">${createstore()}</div>
+                ${createstore()}
                 </div>
 
             <div class="shoppingCart">
@@ -70,11 +71,11 @@
             for( let i = 0; i < store.length; i++){
                 html +=     `<div class="itemcontainer">
                                 <div>${store[i].item}</div>
+                                <img class="itemimage" src="${store[i].image}">            
                                 <div>${store[i].price} kr</div>
                                 <div>${store[i].stock} left in stock</div>
                                 <button class="addToCart" onclick="addToCart(${i})">Add to cart</button>
                                 </div>
-                                <img class="itemimage" src="${store[i].image}">            
                                 `;
             }
             return html
@@ -82,26 +83,45 @@
 
         function addToCart(i){
             if(store[i].stock > 0){
-                 
-            shoppingCart.push(store[i].item);
-            store[i].stock --
-            store[i].cart ++
-            sumtotal = sumtotal + store[i].price;
+                
+                    if(0 < store[i].cart){
+                        itemincart = true
+                    }
+                
+                    if(itemincart == false){
+                        shoppingCart.push(store[i]);
+                        store[i].stock --
+                        store[i].cart ++
+                        sumtotal = sumtotal + store[i].price;
+                    }
+                    else if(itemincart== true){
+                        
+                        store[i].stock --
+                        store[i].cart ++
+                        sumtotal = sumtotal + store[i].price;
+                    }
+                    itemincart = false
+
                 }
                 else{
                     alert('Item out of stock')
                 }
-            
+                
             updateview()
         }
 
          function updateCart(){  
             let itemsincart ="";
+            if(shoppingCart.length <= 0){
+                itemsincart = "Empty Cart, buy somth"
+            }
+            else{
+                for(let i = 0; i < shoppingCart.length; i++){
+                    itemsincart += `<div class="cartitem"><div>${shoppingCart[i].cart}x   ${shoppingCart[i].item}</div>
+                    <img class="cartimage "src="${shoppingCart[i].image}"></div>`;
+                    }
+            }
             
-            for(let i = 0; i < shoppingCart.length; i++){
-
-                  itemsincart += `<div class="item">${store[i].cart}x   ${shoppingCart[i]}</div>`;
-             }
              return itemsincart
         }
     </script>
