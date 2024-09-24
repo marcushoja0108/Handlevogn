@@ -92,6 +92,7 @@
         var shoppingCart = []
         let sumtotal = 0
         var itemincart = false
+        var editamount = false
 
         updateview()
         function updateview(){
@@ -107,7 +108,7 @@
             <div class="shoppingCart">
                 <h2 class="cartheader">Shopping Cart</h2>
                     ${updateCart()}
-                    <div class="sumtotal">Totalt å betale: ${sumtotal} kr</div>
+                    <div class="sumtotal">Totalt å betale: ${sumtotal.toFixed(2)} kr</div>
            </div>
                 
             
@@ -133,9 +134,9 @@
         function addToCart(i){
             if(store[i].stock > 0){
                 
-                    if(0 < store[i].cart){
-                        itemincart = true
-                    }
+                if(0 < store[i].cart){
+                    itemincart = true
+                }
                 
                     if(itemincart == false){
                         shoppingCart.push(store[i]);
@@ -159,6 +160,60 @@
             updateview()
         }
 
+        function removeFromCart(i){
+                itemtotal = shoppingCart[i].price * shoppingCart[i].cart
+                sumtotal = sumtotal - itemtotal
+                shoppingCart.splice(i, 1)
+           
+            updateview()
+        }
+        
+        function createamount(i){
+            var cartamount = shoppingCart[i].cart
+            if(editamount == false){
+                return `<div onclick="startedit()">${shoppingCart[i].cart}x</div>`;
+            }
+            else{
+                return `<input type="number" id="editamount${i}" onchange="changeamount(${i})" 
+                value="${shoppingCart[i].cart}">`;
+            }
+        }
+
+        
+        function startedit(){
+            editamount = true
+            updateview()
+        }
+
+        function endedit(){
+            editamount = false
+            updateview()
+        }
+
+        function changeamount(i){
+            const inputamount = document.getElementById(`editamount${i}`)
+            inputvariance = inputamount - shoppingCart[i].cart
+            parseInt(inputvariance)
+            pricevariance = inputvariance * shoppingCart[i].cart
+            shoppingCart[i].cart = inputamount.value;
+
+            console.log(inputvariance)
+            if(shoppingCart[i].cart == 0){
+                removeFromCart(i)
+            }
+            
+            updateview()
+        }
+        
+        function createeditbutton(i){
+            if(editamount == false){
+                return `<button class="removebutton" onclick="removeFromCart(${i})">Remove</button>`;
+            }
+            else{
+                return `<button class="removebutton" onclick="endedit()">Confirm</button>`;
+            }
+        }
+
          function updateCart(){  
             let itemsincart ="";
             if(shoppingCart.length <= 0){
@@ -166,8 +221,13 @@
             }
             else{
                 for(let i = 0; i < shoppingCart.length; i++){
-                    itemsincart += `<div class="cartitem"><div>${shoppingCart[i].cart}x   ${shoppingCart[i].item}</div>
-                    <img class="cartimage "src="${shoppingCart[i].image}"></div>`;
+                    itemsincart += `<div class="cartitem">
+                        ${createamount(i)}
+                        <div>${shoppingCart[i].item}</div>
+                        <img class="cartimage "src="${shoppingCart[i].image}">
+                        ${createeditbutton(i)}
+                    </div>
+                    `;
                     }
             }
             

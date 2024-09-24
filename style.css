@@ -63,15 +63,19 @@ body{
 }
 .cartitem{
     display: grid;
-    grid-template-columns: auto auto;
-    text-align: center;
+    grid-template-columns: 30px auto auto auto;
+    text-align: start;
     align-items: center;
     border-bottom: solid gray;
+    margin-left: 5px;
 }
 .cartimage{
     height: 100px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.removebutton{
+    width: 70px;
 }
 
 .sumtotal{
@@ -79,8 +83,10 @@ body{
     position: fixed;
     bottom: 0;
     font-size: xx-large;
+    background-color: white;
+    border: solid gray;
     
     text-align: center;
-    padding: 5px;
+    padding: 3px;
     width: 400px;
 }
